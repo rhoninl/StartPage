@@ -1,0 +1,34 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <link rel="stylesheet" type="text/css" href="src/main.css">-->
+<!--    <title>favourites</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<table border="1" bgcolor="gray">-->
+<!--    <tr>-->
+<!--        <td style="padding: 5px 10px" align="right"><img  height="25px" src="https://github.com/favicon.ico" /></td>-->
+<!--        <td style="margin-top: 20px"><a  href="https://github.com/"  style="font-size: 16px;padding-block: unset" >Github</a></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td style="padding: 5px 10px" align="right"><img  height="20px"src="https://csdn.net/favicon.ico" /></td>-->
+<!--        <td><a  href="https://csdn.net/"  style="font-size: 16px;" >CSDN</a></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td style="padding: 5px 10px" align="right"><img  height="20px" src="https://youtube.com/favicon.ico" /></td>-->
+<!--        <td><a  href="https://youtube.com/"  style="font-size: 16px;" >YouTube</a></td>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->
+
+{{define "favourite"}}
+<table border="1" bgcolor="gray">
+{{range $i, $v := .slice}}
+    <tr>
+        <td style="padding: 5px 10px" align="right"><img  height="25px" src="https://github.com/favicon.ico" /></td>
+        <td style="margin-top: 20px"><a  href="https://github.com/"  style="font-size: 16px;padding-block: unset" >Github</a></td>
+    </tr>
+{{end}}
+{{end}}
