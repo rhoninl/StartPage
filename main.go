@@ -11,6 +11,7 @@ func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("Views/*.html")
 	router.StaticFS("src", http.Dir("Views/src"))
-	router.Handle("GET", "/", Controller.GetMainPage)
-	router.Run(":80")
+	router.Handle("GET", "/", Controller.MainPage)
+	router.Handle("POST", "/Register", Controller.Register)
+	router.Run(":8081")
 }
