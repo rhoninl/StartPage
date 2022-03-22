@@ -16,5 +16,5 @@ func main() {
 	router.Handle("GET", "/login", Controller.LoginPage)
 	router.Handle("POST", "/login", Controller.Login)
 	router.Handle("POST", "/Register", Controller.Register)
-	router.Run(":8081")
+	router.Run(":80")
 }
