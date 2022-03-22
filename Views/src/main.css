@@ -180,8 +180,10 @@
 }
 .login-box button {
   border: none;
-  font-size: 19px;
-  width: 32%;
+  font-size: 20px;
+  width: 34%;
+  height: 30px;
+  margin-left: -5px;
 }
 .login-box button:hover{
   background-color:cyan;
