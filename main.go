@@ -10,8 +10,11 @@ import (
 func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("Views/*.html")
+	router.StaticFile("/favicon.ico", "./Views/src/favicon.ico")
 	router.StaticFS("src", http.Dir("Views/src"))
 	router.Handle("GET", "/", Controller.MainPage)
+	router.Handle("GET", "/login", Controller.LoginPage)
+	router.Handle("POST", "/login", Controller.Login)
 	router.Handle("POST", "/Register", Controller.Register)
 	router.Run(":8081")
 }

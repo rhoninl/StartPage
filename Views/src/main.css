@@ -119,11 +119,15 @@
   bottom: 0px;
   text-align: center;
   width: 100%;
-  height: 60px;
-  z-index: 9999;
+  height: 70px;
+  z-index: -1;
 }
 
-.card{width: 200px;box-shadow: 0 0px 0px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0);
+.card{
+  position: fixed;
+  right: 0px;
+  width: 200px;
+  box-shadow: 0 0px 0px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0);
   opacity: 0.33;}
 .header{
   border-radius: 20px;
@@ -141,8 +145,7 @@
 .card img{width: 100%;}
 
 #music-wrap{
-  display: none;
-  margin: 0 auto;
+  display: flow;
   /* display: flex; */
   flex-direction:row;
   justify-content:space-between;
@@ -150,8 +153,8 @@
   filter: alpha(opacity=10);
   -moz-opacity: 0.8;
   -khtml-opacity: 0.8;
-  opacity: 0.8;
-  transition:transform .3s,opacity .5s;
+  opacity: 0;
+  transition:transform .2s,opacity .3s;
 }
 #music-wrap:hover{
   filter: alpha(opacity=100)!important;
@@ -160,3 +163,25 @@
   opacity: 1!important;
 }
 
+.login-box {
+  position: fixed;
+  opacity: 0;
+  border-radius: 20px;
+  background-color: #EEEEEE;
+  right: 0px;
+  bottom: 0px;
+  width: 200px;
+  height: 30px;
+  overflow: hidden;
+}
+.login-box:hover{
+  opacity: 0.7;
+}
+.login-box button {
+  border: none;
+  font-size: 19px;
+  width: 32%;
+}
+.login-box button:hover{
+  background-color:cyan;
+}

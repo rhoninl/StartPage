@@ -42,10 +42,11 @@ func RDB() *redis.Client {
 	return rdb
 }
 
-func DoLog(id int, ip string, message string) {
-	template := `insert Into Log Set UserId = ?,UserIp = ?,Message=?"`
-	_, err := DB().Query(template, id, ip, message)
+func DoLog(id int64, ip string, message string) {
+	template := `insert Into Log Set UserId = ?,UserIp = ?,Message=?`
+	result, err := DB().Query(template, id, ip, message)
 	if err != nil {
 		log.Println("[Mysql]Log make default")
 	}
+	result.Close()
 }

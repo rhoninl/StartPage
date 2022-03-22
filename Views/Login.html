@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <script src="src/jquery-3.6.0.min.js"></script>
+</head>
+<style>
+    body {
+
+    }
+    .login-box{
+        position: absolute;
+        background-color: #CCCAFF;
+        /*left: 50%;*/
+        /*top: 50%;*/
+        /*margin: -100px 0 0 -150px;*/
+        width: 300px;
+        height: 200px;
+        border-radius: 30px;
+    }
+    .form-box{
+        margin: 40px 0 0 30px;
+        line-height: 40px;
+    }
+    button#register{
+        position: absolute;
+        bottom: 20px;
+        left: 160px;
+        border-radius: 50%;
+        border: none;
+        width: 50px;
+        height: 50px;
+    }
+    button#forget-password{
+        position: absolute;
+        bottom: 20px;
+        left: 40px;
+        border-radius: 50%;
+        border: none;
+        width: 50px;
+        height: 50px;
+    }
+    input#login{
+        position: absolute;
+        bottom: 20px;
+        left: 230px;
+        border-radius: 50%;
+        border: none;
+        width: 50px;
+        height: 50px;
+    }
+    button:active {
+        border: none;
+    }
+</style>
+
+<body>
+    <div class="login-box">
+        <div class="form-box">
+            <form>
+                帐号：<input id="username"/><br>
+                密码：<input id="password" type="password"/><br>
+                <button id="forget-password">忘记密码</button>
+                <button id="register">注册</button>
+                <input type="button" id="login" onclick="myLogin()" value="登陆"/>
+            </form>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    function myLogin(){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        console.log(username,password)
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"#",
+            contentType:"application/json",
+            data:JSON.stringify({
+                "UserName":username,
+                "Password":password
+            }),
+            success:function (result){
+                window.location.href = "/";
+            },
+            error:function (data) {
+                alert("Login Default!");
+            }
+        });
+    }
+</script>
+</html>

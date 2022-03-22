@@ -6,50 +6,24 @@
   <link rel="stylesheet" type="text/css" href="src/main.css">
   <title>简简单单一个主页</title>
 </head>
-<body onload="disptime()">
-<div class="left">
-  <!--背景图片-->
-  <div id="web_bg" style="background-image: url(./src/background.jpg);"></div>
-  <!--其他代码 ... -->
-  <div id="myclock" margin="0 auto"></div>
-  <div id="search-wrap" style="opacity: 0; width: 60%; height: 54px; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; margin-bottom: 20px; display: flex;">
-    <form onsubmit="return baiduWithHttps(this)" action="http://www.baidu.com/baidu"  id="search-form">
-      <input id="search" type="text" name="wd" placeholder="" autocomplete="off" autofocus="" data-engine-start="https://www.baidu.com/s?wd=" data-engine-end="&amp;ie=utf-8">
-    </form>
-  </div>
-  <!-- -->
-</div>
-<div class="right">
-  <div style="align-items:normal">
-    <div class="card">
-      <div class="header" style="background-color: #3A3B37">
-        <div id="he-plugin-standard"></div>
-        <script>
-          WIDGET = {
-            "CONFIG": {
-              "layout": "1",
-              "width": "190",
-              "height": "150",
-              "background": "5",
-              "dataColor": "FFFFFF",
-              "modules": "10",
-              "key": "b1e326856f914e7c8a94542b60543c29"
-            }
-          }
-        </script>
-        <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
-      </div>
-    </div>
-  </div>
-  <div style="align-items:normal;margin-top: 2px">
-    <div class="card">
-      <div class="header" style="background-color: #8F7F64">
-        {{ .favourite }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<style>
+  a:link {
+    color:#222222;
+    text-decoration:none;
+  }
+  a:visited {
+    color:#222222;
+    text-decoration:none;
+  }
+  a:hover {
+    color:blue;
+    text-decoration:none;
+  }
+  a:active {
+    color:red;
+    text-decoration:none;
+  }
+</style>
 <script type="text/javascript">
   function disptime(){
     var today=new Date();
@@ -80,26 +54,54 @@
   //setInterval（）方法可以按照指定的周期调用函数或计算表达式
   var mytime = setInterval("disptime()",1000);
 </script>
-<style>
-  a:link {
-    color:#222222;
-    text-decoration:none;
-  }
-  a:visited {
-    color:#222222;
-    text-decoration:none;
-  }
-  a:hover {
-    color:blue;
-    text-decoration:none;
-  }
-  a:active {
-    color:red;
-    text-decoration:none;
-  }
-</style>
+<body onload="disptime()">
+  <div class="left">
+    <!--背景图片-->
+    <div id="web_bg" style="background-image: url(./src/background.jpg);"></div>
+    <!--其他代码 ... -->
+    <div id="myclock" margin="0 auto"></div>
+    <div id="search-wrap" style="opacity: 0; width: 60%; height: 54px; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; margin-bottom: 20px; display: flex;">
+      <form onsubmit="return baiduWithHttps(this)" action="http://www.baidu.com/baidu"  id="search-form">
+        <input id="search" type="text" name="wd" placeholder="" autocomplete="off" autofocus="" data-engine-start="https://www.baidu.com/s?wd=" data-engine-end="&amp;ie=utf-8">
+      </form>
+    </div>
+    <!-- -->
+  </div>
+  <div class="right">
+    <div style="align-items:normal">
+      <div class="card">
+        <div class="header" style="background-color: #3A3B37">
+          <div id="he-plugin-standard"></div>
+          <div id="he-plugin-standard"></div>
+          <script>
+            WIDGET = {
+              "CONFIG": {
+                "layout": "1",
+                "width": "200",
+                "height": "150",
+                "background": "5",
+                "dataColor": "FFFFFF",
+                "modules": "10",
+                "key": "3215431235d5419ebd5f3ec1d5497f49"
+              }
+            }
+          </script>
+          <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
+        </div>
+      </div>
+    </div>
+    <div class="login-box">
+      <div>
+        <button onclick="alert('尚在完善')">登陆</button>
+        <button onclick="alert('尚在完善')">设置</button>
+        <button onclick="alert('尚在完善')">关于</button>
+      </div>
+    </div>
+  </div>
 <footer id="footer">
-  <iframe id="music-wrap" style="opacity: 0;display: flex;border-radius: 10px"  width="980" height="28" scrolling="no" src="//www.qqmc.com/fmp/fmp/index.htm"></iframe>
+  <div style="width: 950px;height: 50px;margin: 0 auto;overflow: hidden" >
+    <iframe id="music-wrap" style ="margin-left: -121px;margin-top: -50px" frameborder="no" border="0" marginwidth="0" marginheight="0" width=1030 height=110 src="//music.163.com/outchain/player?type=0&id=5482922289&auto=1&height=90"></iframe><br>
+  </div>
  <a href="https://beian.miit.gov.cn/#/Integrated/index">备案号：津ICP备2021007545号</a>
 </footer>
 </body>
