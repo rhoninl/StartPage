@@ -147,20 +147,10 @@
 
 #music-wrap{
   display: flow;
-  /* display: flex; */
-  flex-direction:row;
-  justify-content:space-between;
-  align-items:center;
-  filter: alpha(opacity=10);
-  -moz-opacity: 0.8;
-  -khtml-opacity: 0.8;
   opacity: 0;
   transition:transform .2s,opacity .3s;
 }
 #music-wrap:hover{
-  filter: alpha(opacity=100)!important;
-  -moz-opacity: 1!important;
-  -khtml-opacity: 1!important;
   opacity: 1!important;
 }
 
