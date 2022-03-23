@@ -47,3 +47,17 @@ func CheckToken(tokenString string) (int64, error) {
 	}
 	return 0, fmt.Errorf("token is Invalid Or Up to date")
 }
+func DeleteToken() (string, error) {
+	c := &CustomClaims{
+		UserId: 0,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: -1,
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
+	tokenString, err := token.SignedString([]byte(privateKey))
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
+}

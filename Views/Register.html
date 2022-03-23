@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<style>
+    .login-box{
+        position: absolute;
+        background-color: #EEEEEE;
+        /*left: 50%;*/
+        /*top: 50%;*/
+        /*margin: -100px 0 0 -150px;*/
+        width: 300px;
+        height: 200px;
+    }
+    .form-box{
+        margin: 15px 0 0 15px;
+    }
+    .myButton{
+        font-size: 15px;
+    }
+    .myButton:hover{
+        opacity: 0.6;
+    }
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    .input-text {
+        width: 180px;
+        height: 30px;
+        border: none;
+        font-size: 18px;
+    }
+    input#Register{
+        background-color: #B0B0EE;
+        position: absolute;
+        left: 180px;
+        border: none;
+        width: 80px;
+        height: 25px;
+    }
+    #notice{
+        margin-left: 10px;
+        color: red;
+    }
+</style>
+<body>
+    <div class="login-box">
+        <div class="form-box">
+            <form>
+                <table style="line-height: 40px">
+                    <tr>
+                        <td>帐号：</td>
+                        <td><input id="username" class="input-text"/></td>
+                    </tr>
+                    <tr>
+                        <td>密码：</td>
+                        <td><input id="password" class="input-text" type="password"/></td>
+                    </tr>
+                    <tr>
+                        <td>确认密码：</td>
+                        <td><input id="confirm-password" class="input-text" type="password"/></td>
+                    </tr>
+                </table>
+                <p id="notice"></p>
+                <input class="myButton" type="button" id="Register" onclick="myRegister()" value="注册"/>
+            </form>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    function myRegister(){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirm-password").value;
+        if (confirmPassword != password) {
+            document.getElementById("notice").innerText="两次密码不同";
+            return
+        }
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"#",
+            contentType:"application/json",
+            data:JSON.stringify({
+                "UserName":username,
+                "Password":password
+            }),
+            success:function (result){
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.msg('注册成功');
+                parent.layer.close(index);s
+            },
+            error:function (data) {
+                document.getElementById("notice").innerText = data.responseJSON["data"]["message"];
+            }
+        });
+    }
+</script>
