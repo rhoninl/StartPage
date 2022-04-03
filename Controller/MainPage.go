@@ -8,8 +8,20 @@ import (
 )
 
 func MainPage(c *gin.Context) {
-	_, exists := c.Get("userId")
-	c.HTML(http.StatusOK, "index.html", gin.H{"isLogin": strconv.FormatBool(exists)})
+	userId, exists := c.Get("userId")
+	background := ""
+	if !exists {
+		background = "./src/background.jpg?v=1.1"
+	} else {
+		background, _ = utils.GetUserBg(userId.(int64))
+		if background == "" {
+			background = "./src/background.jpg?v=1.1"
+		}
+	}
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"isLogin":    strconv.FormatBool(exists),
+		"background": background,
+	})
 }
 
 func LoginPage(c *gin.Context) {
@@ -38,4 +50,12 @@ func LogOut(c *gin.Context) {
 
 func RegisterPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "Register.html", gin.H{})
+}
+
+func Notice(c *gin.Context) {
+	c.HTML(http.StatusOK, "notice.html", gin.H{})
+}
+
+func Setting(c *gin.Context) {
+	c.HTML(http.StatusOK, "Setting.html", gin.H{})
 }

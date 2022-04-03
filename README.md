@@ -1,2 +1,2 @@
 # StartPage
-html+gin 各种拼凑
+该项目为本人练手项目，使用了Golang+MySQL+Redis做后端，同时采用HTML+Layui以及ajax等常用前端框架搭建而成，该项目尚处于开发中，如果有好的建议和意见可以在github中提交requet

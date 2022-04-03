@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Setting</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div style="left: 3px;top: 3px">
+        <form id = "form">
+            背景图片：<input type="text" value="" id="imgUrl"><br>
+            <button type="button" onclick="commit()">确认</button><br>
+            <button type="button" onclick="cancel()">取消</button>
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    function commit(){
+        console.log("url")
+        let url = document.getElementById('imgUrl').value;
+        console.log(url)
+        var index = parent.layer.getFrameIndex(window.name);
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"#",
+            contentType:"application/json",
+            data:JSON.stringify({
+                "ImgUrl":url
+            }),
+            success:function (result){
+                parent.layer.msg('设置成功');
+                parent.layer.close(index);
+                parent.location.reload();
+            },
+            error:function (data) {
+                parent.layer.msg('设置失败');
+            }
+        });
+    }
+
+    function cancel(){
+        parent.layer.close(index);
+    }
+</script>
+</html>

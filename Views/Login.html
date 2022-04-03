@@ -20,7 +20,7 @@
     }
     button#register{
         position: absolute;
-        bottom: 55px;
+        bottom: 20px;
         left: 40px;
         border: none;
         width: 80px;
@@ -60,8 +60,12 @@
         height: 30px;
         border: none;
         font-size: 18px;
+        padding-left: 8px;
     }
-
+    #notice{
+        color: red;
+        margin-left: 10px;
+    }
 </style>
 <body>
     <div class="login-box">
@@ -69,6 +73,7 @@
             <form>
                 帐号：<input id="username" class="input-text"/><br>
                 密码：<input id="password" class="input-text" type="password"/><br>
+                <p id ="notice"></p>
                 <button id="forget-password" class="myButton">忘记密码</button>
                 <button id="register" class="myButton" onclick="Register()">注册</button>
                 <input class="myButton" type="button" id="login" onclick="myLogin()" value="登陆"/>
@@ -80,7 +85,14 @@
     function myLogin(){
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        console.log(username,password)
+        if (username == "") {
+            document.getElementById("notice").innerText="帐号不能为空";
+            return
+        }
+        if (password == "") {
+            document.getElementById("notice").innerText="密码不能为空";
+            return
+        }
         $.ajax({
             type:"POST",
             dataType:"json",
@@ -97,7 +109,7 @@
                 parent.location.reload();
             },
             error:function (data) {
-                alert("Login Default!");
+                document.getElementById("notice").innerText = data.responseJSON["data"]["message"];
             }
         });
     }

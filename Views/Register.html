@@ -71,9 +71,19 @@
 </body>
 <script type="text/javascript">
     function myRegister(){
+        var uPattern = /^[a-zA-Z0-9_-]{6,18}$/;
+        var pPattern = /^[a-zA-Z0-9_-]{6,99}$/;
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var confirmPassword = document.getElementById("confirm-password").value;
+        if (!uPattern.test(username)) {
+            document.getElementById("notice").innerText="帐号必须为6-18位的字母数字下划线";
+            return
+        }
+        if (!pPattern.test(password)) {
+            document.getElementById("notice").innerText="密码强度过低";
+            return
+        }
         if (confirmPassword != password) {
             document.getElementById("notice").innerText="两次密码不同";
             return

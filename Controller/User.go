@@ -17,7 +17,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	template := `Select UserId From startpage.User Where UserName = ? limit 1`
-	result, err := DB().Query(template, user.UserName)
+	result, err := utils.DB().Query(template, user.UserName)
 	if err != nil {
 		log.Println("[Mysql] Query User make mistake")
 		c.JSON(http.StatusInternalServerError, gin.H{"data": gin.H{"message": "DataBase make mistake"}})
@@ -29,17 +29,18 @@ func Register(c *gin.Context) {
 		return
 	}
 	template = `Insert Into startpage.User Set UserName = ?,Password=?,CreatedTime=?`
-	stmt, err := DB().Prepare(template)
+	stmt, err := utils.DB().Prepare(template)
 	defer stmt.Close()
 	rows, err := stmt.Exec(user.UserName, user.PassWord, time.Now())
 	if err != nil {
 		fmt.Println("[Mysql]Create User Default", err)
-		DoLog(-1, c.ClientIP(), "Register Default")
+		utils.DoLog(-1, c.ClientIP(), "Register Default")
 		c.JSON(http.StatusInternalServerError, gin.H{"data": gin.H{"message": "DataBase make mistake"}})
 		return
 	}
 	user.Id, _ = rows.LastInsertId()
-	DoLog(user.Id, c.ClientIP(), "Register Success")
+	utils.InitSetting(user.Id)
+	utils.DoLog(user.Id, c.ClientIP(), "Register Success")
 	c.JSON(http.StatusOK, gin.H{"data": gin.H{"message": "Register Success!"}})
 }
 
@@ -51,10 +52,10 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "Password Or Account is Empty"}})
 		return
 	}
-	currentPassword, err := RDB().Get(user.UserName).Result()
+	currentPassword, err := utils.RDB().Get(user.UserName).Result()
 	if err != nil {
 		template := `Select Password From startpage.User Where UserName = ? limit 1`
-		result, err := DB().Query(template, user.UserName)
+		result, err := utils.DB().Query(template, user.UserName)
 		if err != nil {
 			log.Println("[Mysql] Query User make mistake")
 			c.JSON(http.StatusInternalServerError, gin.H{"data": gin.H{"message": "DataBase make mistake"}})
@@ -68,14 +69,42 @@ func Login(c *gin.Context) {
 		result.Scan(&currentPassword)
 	}
 	if currentPassword == user.PassWord {
-		RDB().Del(user.UserName)
-		token, _ := utils.SetToken(user.Id)
-		c.SetCookie("token", token, utils.MaxAge, "/", "/", true, true)
+		utils.RDB().Del(user.UserName)
+		userId, err := utils.GetUserIdByUserName(user.UserName)
+		if err != nil {
+			userId = -1
+		}
+		token, _ := utils.SetToken(userId)
+		c.SetCookie("token", token, utils.MaxAge, "/", "/", false, true)
 		c.JSON(http.StatusOK, gin.H{"data": gin.H{"message": "Login Success"}})
 		return
 	}
 	if err != nil {
-		RDB().Set(user.UserName, currentPassword, time.Minute*3)
+		utils.RDB().Set(user.UserName, currentPassword, time.Minute*3)
 	}
 	c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "Wrong Password"}})
+}
+
+func Favourite(c *gin.Context) {
+	userId, exists := c.Get("userId")
+	if exists {
+		fmt.Println(userId)
+	}
+}
+
+func SetSetting(c *gin.Context) {
+	var userInfo utils.UserSetting
+	c.Bind(&userInfo)
+	userId, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "请求错误"}})
+		return
+	}
+	userInfo.Id = userId.(int64)
+	ok := utils.UpdateSetting(userInfo)
+	if ok {
+		c.JSON(http.StatusOK, nil)
+		return
+	}
+	c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "设置失败"}})
 }

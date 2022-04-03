@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="src/main.css?v=1.0.0.1">
   <script src="https://www.layuicdn.com/layui/layui.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="src/buttonfunction.js?v=1.01"></script>
+  <script src="src/buttonfunction.js?v=1.03"></script>
   <title>简简单单一个主页</title>
 </head>
 <style>
@@ -65,7 +65,7 @@
 <body onload="disptime()">
   <div class="left">
     <!--背景图片-->
-    <div id="web_bg" style="background-image: url(./src/background.jpg?v=1.1);"></div>
+    <div id="web_bg" style="background-image: url({{ .background }});"></div>
     <!--其他代码 ... -->
     <div id="myclock" margin="0 auto"></div>
     <div id="search-wrap" style="opacity: 0; width: 60%; height: 54px; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px; margin-bottom: 20px; display: flex;">
@@ -79,8 +79,34 @@
     <div style="align-items:normal">
       <div class="card">
         <div class="header" style="background-color: #3A3B37">
-          <iframe style="margin-left: -30px" allowtransparency="true" frameborder="0" width="255" height="98" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=2&z=1&t=1&v=0&d=1&bd=0&k=000000&f=ffffff&ltf=009944&htf=cc0000&q=0&e=1&a=1&c=54511&w=255&h=98&align=center"></iframe>      </div>
+          <!--和风天气 -->
+          <div id="he-plugin-standard"></div>
+          <script>
+            WIDGET = {
+              "CONFIG": {
+                "layout": "1",
+                "width": "200",
+                "height": "150",
+                "background": "5",
+                "dataColor": "FFFFFF",
+                "modules": "10",
+                "key": "01215f0a713f490eb180b64c9e1d83de"
+              }
+            }
+          </script>
+          <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
+          <!--和风天气结束 -->
+        </div>
     </div>
+<!--
+     <div class="card" style="margin-top: 123px" id="favourite-card">
+        <div class="header" style="background-color: #3A3B37" id ="favourite-list">
+          <script>
+            ShowFavourite();
+          </script>
+        </div>
+      </div>
+      -->
     <div class="login-box">
       <div style = "padding-left: 6px;">
         <button onclick="showBox('Login')" class="layer-login" id="login">登陆</button>

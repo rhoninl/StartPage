@@ -15,11 +15,43 @@ function showBox(url){
 }
 
 function About(){
-    alert('尚在完善');
+    layui.use('layer',function () {
+        var layer = layui.layer;
+        layer.open({
+            type: 2,
+            title: false,
+            closeBtn: 2,
+            area: ['300px','600px'],
+            btn:['项目仓库'],
+            btnAlign: 'c',
+            moveType: 1,
+            content: ['/Notice'],
+            success: function(layero){
+                var btn = layero.find('.layui-layer-btn');
+                btn.find('.layui-layer-btn0').attr({
+                    href:'https://github.com/MrLeea-13155bc/StartPage'
+                })
+            }
+        });
+    })
 }
 
 function Setting(){
-    alert('尚在完善');
+   let isLogin = document.getElementById("isLogin").innerText;
+   if(isLogin[0] == "f") {
+       showBox('Login');
+       return
+   }
+    layui.use('layer',function () {
+        var layer = layui.layer;
+        layer.open({
+            type: 2,
+            title: false,
+            area: ['300px','100px'],
+            moveType: 1,
+            content: ['/Setting'],
+        });
+    })
 }
 
 function judgeLogin() {
@@ -46,4 +78,24 @@ function LogOut(){
             alert("LogOut Default!");
         }
     });
+}
+
+function GetFavourite(){
+    $.ajax({
+        type:"POST",
+        url:"/Favourite",
+        success:function (result){
+            return result.responseJSON[0]
+        },
+        error:function (data) {
+            alert("获取收藏夹失败");
+        }
+    });
+}
+
+function ShowFavourite(){
+    let favourites = GetFavourite();
+    if (favourites.length == 0) {
+        document.getElementById("favourite-card").style.display = 'none';
+    }
 }
