@@ -23,5 +23,5 @@ func main() {
 	router.Handle("POST", "/Register", Controller.Register)
 	router.Handle("POST", "/LogOut", Controller.LogOut)
 	router.Handle("POST", "/Favourite", Middlewares.Auth(), Controller.Favourite)
-	router.Run(":8081")
+	router.Run(":80")
 }
