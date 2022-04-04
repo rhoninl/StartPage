@@ -21,7 +21,7 @@ function About(){
             type: 2,
             title: false,
             closeBtn: 2,
-            area: ['300px','600px'],
+            area: ['300px','300px'],
             btn:['项目仓库'],
             btnAlign: 'c',
             moveType: 1,
@@ -47,7 +47,7 @@ function Setting(){
         layer.open({
             type: 2,
             title: false,
-            area: ['300px','100px'],
+            area: ['300px','80px'],
             moveType: 1,
             content: ['/Setting'],
         });

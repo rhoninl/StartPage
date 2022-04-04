@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <title>Setting</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="src/main.css?v=1.0.0.1">
 </head>
 <body>
     <div style="left: 3px;top: 3px">
         <form id = "form">
             背景图片：<input type="text" value="" id="imgUrl"><br>
-            <button type="button" onclick="commit()">确认</button><br>
-            <button type="button" onclick="cancel()">取消</button>
+          <div class="footer">
+            <button type="button" class="button" id="ok" onclick="commit()">确认</button>
+            <button type="button" class="button" id="cancel" onclick="goback()">取消</button>
+          </div>
         </form>
     </div>
 </body>
@@ -39,8 +42,9 @@
         });
     }
 
-    function cancel(){
-        parent.layer.close(index);
+    function goback(){
+      var index = parent.layer.getFrameIndex(window.name);
+      parent.layer.close(index);
     }
 </script>
 </html>
