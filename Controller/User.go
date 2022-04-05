@@ -136,7 +136,10 @@ func AddOneFavourite(c *gin.Context) {
 	userInfo := utils.UserFavourite{}
 	c.BindJSON(&userInfo)
 	userInfo.Id = userid.(int64)
-	userInfo.Url = strings.Split(userInfo.Url, "//")[1]
+	splits := strings.Split(userInfo.Url, "//")
+	if len(splits) > 1 {
+		userInfo.Url = splits[1]
+	}
 	userInfo.Priority = 1
 	err := utils.InsertFavourite(userInfo)
 	if err != nil {

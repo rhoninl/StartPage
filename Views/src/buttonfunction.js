@@ -21,7 +21,7 @@ function About(){
             type: 2,
             title: false,
             closeBtn: 2,
-            area: ['300px','300px'],
+            area: ['300px','500px'],
             btn:['项目仓库'],
             btnAlign: 'c',
             moveType: 1,
@@ -113,7 +113,7 @@ function RenderFavourite(data){
 function RenderFavouriteTable(data){
     let str = "<table class = 'favouriteTable'>"
     for(let k in data){
-        str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/></td><td style='width: 155px'><span>"+data[k]['Alias']+"</span></td><td><button>修改</button></td><td><button>删除</button></td></tr>"
+        str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/></td><td style='width: 150px'><span>"+data[k]['Alias']+"</span></td><td><button>修改</button></td><td><button>删除</button></td></tr>"
     }
     str += "<tr><td colspan='2'></td><td colspan='3'><button onclick='AddFavourite()'>添加</button></td></tr>"
     str += "</table>"
