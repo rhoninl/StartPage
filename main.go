@@ -26,5 +26,5 @@ func main() {
 	router.Handle("GET", "SetFavourite", Controller.SetFavourite)
 	router.Handle("GET", "AddFavourite", Controller.AddFavourite)
 	router.Handle("POST", "AddFavourite", Middlewares.Auth(), Controller.AddOneFavourite)
-	router.Run(":8081")
+	router.Run(":80")
 }
