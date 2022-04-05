@@ -1,5 +1,5 @@
 
-function showBox(url){
+function showBox(url,width,height){
     layui.use('layer',function (){
         var layer = layui.layer;
         layer.open({
@@ -7,7 +7,7 @@ function showBox(url){
             btn: false,
             closeBtn:1,
             type: 2,
-            area:['300px','200px'],
+            area:[width,height],
             scrollbar:false,
             content: [url]
         });
@@ -39,7 +39,7 @@ function About(){
 function Setting(){
    let isLogin = document.getElementById("isLogin").innerText;
    if(isLogin[0] == "f") {
-       showBox('Login');
+       showBox('Login','300px','200px');
        return
    }
     layui.use('layer',function () {
@@ -47,7 +47,7 @@ function Setting(){
         layer.open({
             type: 2,
             title: false,
-            area: ['300px','80px'],
+            area: ['300px','110px'],
             moveType: 1,
             content: ['/Setting'],
         });
@@ -55,14 +55,13 @@ function Setting(){
 }
 
 function judgeLogin() {
-    var islogin = document.getElementById("isLogin").innerText;
-    console.log(islogin)
-   if (islogin[0] == "f") {
-       document.getElementById("login").onclick = Login;
-       document.getElementById("login").innerHTML = "登陆";
+    let isLogin = document.getElementById("isLogin").innerText;
+   if (isLogin[0] == "f") {
+       document.getElementById("favourite-card").style.display= "none";
    }else{
        document.getElementById("login").onclick = LogOut;
        document.getElementById("login").innerText = "注销";
+       document.getElementById('favourite-list').innerHTML = RenderFavourite(getFavourite().data);
    }
 }
 
@@ -80,22 +79,48 @@ function LogOut(){
     });
 }
 
-function GetFavourite(){
+function getFavourite(){
+    let result
     $.ajax({
-        type:"POST",
+        type:"GET",
         url:"/Favourite",
-        success:function (result){
-            return result.responseJSON[0]
+        dataType:'json',
+        async:false,
+        success:function(data){
+            result = data
         },
-        error:function (data) {
+        error:function(){
             alert("获取收藏夹失败");
         }
     });
+    return result
 }
 
-function ShowFavourite(){
-    let favourites = GetFavourite();
-    if (favourites.length == 0) {
-        document.getElementById("favourite-card").style.display = 'none';
+function RenderFavourite(data){
+    if (data == null) {
+        document.getElementById("favourite-card").style.display= "none";
+        return
     }
+
+    let str = "<table class = 'favourite-table'>"
+    for(let k in data){
+        str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/><a href=http://"+data[k]['Url']+"><span>"+data[k]['Alias']+"</span></td></tr>"
+    }
+    str += "</table>"
+    return str
 }
+
+function RenderFavouriteTable(data){
+    let str = "<table class = 'favouriteTable'>"
+    for(let k in data){
+        str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/></td><td style='width: 155px'><span>"+data[k]['Alias']+"</span></td><td><button>修改</button></td><td><button>删除</button></td></tr>"
+    }
+    str += "<tr><td colspan='2'></td><td colspan='3'><button onclick='AddFavourite()'>添加</button></td></tr>"
+    str += "</table>"
+    return str
+}
+
+function AddFavourite(){
+    parent.showBox("AddFavourite",'300px','100px')
+}
+

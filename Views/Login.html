@@ -109,7 +109,7 @@
                 parent.location.reload();
             },
             error:function (data) {
-                document.getElementById("notice").innerText = data.responseJSON["data"]["message"];
+                document.getElementById("notice").innerText = data.responseJSON[data]["message"];
             }
         });
     }

@@ -6,6 +6,7 @@ import (
 	"log"
 	"main/utils"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -87,9 +88,18 @@ func Login(c *gin.Context) {
 
 func Favourite(c *gin.Context) {
 	userId, exists := c.Get("userId")
-	if exists {
-		fmt.Println(userId)
+	if !exists || userId == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "Not Login"}})
+		return
 	}
+	favourites, err := utils.GetFavouriteById(userId.(int64))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"data": gin.H{"message": "Database Make Mistake"}})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": favourites,
+	})
 }
 
 func SetSetting(c *gin.Context) {
@@ -107,4 +117,31 @@ func SetSetting(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "设置失败"}})
+}
+
+func SetFavourite(c *gin.Context) {
+	c.HTML(http.StatusOK, "SetFavourite.html", nil)
+}
+
+func AddFavourite(c *gin.Context) {
+	c.HTML(http.StatusOK, "AddFavourite.html", nil)
+}
+
+func AddOneFavourite(c *gin.Context) {
+	userid, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "帐号发生错误"}})
+		return
+	}
+	userInfo := utils.UserFavourite{}
+	c.BindJSON(&userInfo)
+	userInfo.Id = userid.(int64)
+	userInfo.Url = strings.Split(userInfo.Url, "//")[1]
+	userInfo.Priority = 1
+	err := utils.InsertFavourite(userInfo)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"data": gin.H{"message": "数据库发生错误"}})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": gin.H{"message": "ok"}})
 }

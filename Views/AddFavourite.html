@@ -2,25 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Setting</title>
+    <title>AddFavourite</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="src/main.css?v=1.0.2">
 </head>
 <body>
-    <div style="left: 3px;top: 3px">
-        <form id = "form">
-            背景图片：<input type="text" value="" id="imgUrl"><br>
-            <button onclick="SetFavourite()" type="button" class = "button" id="setFavourite">设置收藏夹</button><br>
-          <div class="footer">
-            <button type="button" class="button" id="ok" onclick="commit()">确认</button>
-            <button type="button" class="button" id="cancel" onclick="goBack()">取消</button>
-          </div>
-        </form>
-    </div>
+  <form style="text-align: center">
+    名称: <input type="text" id = "alias"> <br>
+    链接: <input type="text" id = "url"> <br>
+      <div class="footer">
+          <button type="button" class="button" id="ok" onclick="commit()">确认</button>
+          <button type="button" class="button" id="cancel" onclick="goBack()">取消</button>
+      </div>
+  </form>
 </body>
-<script type="text/javascript">
+<script>
     function commit(){
-        let url = document.getElementById('imgUrl').value;
+        let alias = document.getElementById('alias').value;
+        let url = document.getElementById('url').value;
+        if(url == "") {
+            parent.layer.msg('链接不能为空')
+            return
+        }
         var index = parent.layer.getFrameIndex(window.name);
         $.ajax({
             type:"POST",
@@ -28,7 +31,8 @@
             url:"#",
             contentType:"application/json",
             data:JSON.stringify({
-                "ImgUrl":url
+                "Url":url,
+                "Alias":alias
             }),
             success:function (result){
                 parent.layer.msg('设置成功');
@@ -40,13 +44,9 @@
             }
         });
     }
-
     function goBack(){
-      var index = parent.layer.getFrameIndex(window.name);
-      parent.layer.close(index);
-    }
-    function SetFavourite(){
-        parent.showBox("SetFavourite",'300px','200px');
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
     }
 </script>
 </html>
