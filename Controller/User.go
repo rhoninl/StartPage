@@ -6,6 +6,7 @@ import (
 	"log"
 	"main/utils"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -147,4 +148,43 @@ func AddOneFavourite(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": gin.H{"message": "ok"}})
+}
+
+func DeleteOneFavourite(c *gin.Context) {
+	var userInfo utils.UserFavourite
+	c.BindJSON(&userInfo)
+	userid, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "没登陆"}})
+		return
+	}
+	userInfo.UserId = userid.(int64)
+	err := utils.DeleteFavourite(userInfo)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"data": gin.H{"message": "删除失败"}})
+		return
+	}
+	c.JSON(http.StatusOK, nil)
+}
+
+func AlterFavourite(c *gin.Context) {
+	fid := c.Param("id")
+	id, _ := strconv.Atoi(fid)
+	fmt.Println(fid)
+	data, _ := utils.QueryFavouriteById(int64(id))
+	c.HTML(http.StatusOK, "AlterFavourite.html", data)
+}
+
+func AlterOneFavourite(c *gin.Context) {
+	userid, _ := c.Get("userId")
+	var userInfo utils.UserFavourite
+	c.BindJSON(&userInfo)
+	userInfo.UserId = userid.(int64)
+	err := utils.UpdateFavourite(userInfo)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "请求错误"})
+		return
+	}
+	c.JSON(http.StatusOK, nil)
 }

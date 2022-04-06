@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AddFavourite</title>
+    <title>AlterFavourite</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/src/main.css?v=1.0.2">
 </head>
 <body>
+<div style="display: none"><p id="id">{{.Id}}</p></div>
   <form style="text-align: center">
-    名称: <input type="text" id = "alias"> <br>
-    链接: <input type="text" id = "url"> <br>
+    名称: <input type="text" id = "alias" value="{{.Alias}}"><br>
+    链接: <input type="text" id = "url" value="{{.Url}}"><br>
       <div class="footer">
           <button type="button" class="button ok" onclick="commit()">确认</button>
           <button type="button" class="button cancel" onclick="goBack()">取消</button>
@@ -18,8 +19,10 @@
 </body>
 <script>
     function commit(){
+        let id = document.getElementById('id').innerText;
         let alias = document.getElementById('alias').value;
         let url = document.getElementById('url').value;
+        console.log(id)
         if(url == "") {
             parent.layer.msg('链接不能为空')
             return
@@ -28,9 +31,10 @@
         $.ajax({
             type:"POST",
             dataType:"json",
-            url:"#",
+            url:"/AlterFavourite",
             contentType:"application/json",
             data:JSON.stringify({
+                "FavouriteId": parseInt(id),
                 "Url":url,
                 "Alias":alias
             }),

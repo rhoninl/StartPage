@@ -1,5 +1,5 @@
-
-function showBox(url,width,height){
+let myFavourite
+function showBox(url,width,height,parentWindow){
     layui.use('layer',function (){
         var layer = layui.layer;
         layer.open({
@@ -9,7 +9,11 @@ function showBox(url,width,height){
             type: 2,
             area:[width,height],
             scrollbar:false,
-            content: [url]
+            content: [url],
+            end:function (){
+                parentWindow.location.reload()
+            }
+
         });
     })
 }
@@ -39,7 +43,7 @@ function About(){
 function Setting(){
    let isLogin = document.getElementById("isLogin").innerText;
    if(isLogin[0] == "f") {
-       showBox('Login','300px','200px');
+       showBox('Login','300px','200px',window);
        return
    }
     layui.use('layer',function () {
@@ -88,6 +92,7 @@ function getFavourite(){
         async:false,
         success:function(data){
             result = data
+            myFavourite = data.data
         },
         error:function(){
             alert("获取收藏夹失败");
@@ -101,7 +106,6 @@ function RenderFavourite(data){
         document.getElementById("favourite-card").style.display= "none";
         return
     }
-
     let str = "<table class = 'favourite-table'>"
     for(let k in data){
         str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/><a href=http://"+data[k]['Url']+"><span>"+data[k]['Alias']+"</span></td></tr>"
@@ -113,7 +117,7 @@ function RenderFavourite(data){
 function RenderFavouriteTable(data){
     let str = "<table class = 'favouriteTable'>"
     for(let k in data){
-        str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/></td><td style='width: 150px'><span>"+data[k]['Alias']+"</span></td><td><button>修改</button></td><td><button>删除</button></td></tr>"
+        str += "<tr><td><img src='http://"+data[k]['Url']+"/favicon.ico'/></td><td style='width: 150px'><span>"+data[k]['Alias']+"</span></td><td><button onclick='Alter(this)' value='"+k+"'>修改</button></td><td><button value='"+k+"' onclick='Delete(this)'>删除</button></td></tr>"
     }
     str += "<tr><td colspan='2'></td><td colspan='3'><button onclick='AddFavourite()'>添加</button></td></tr>"
     str += "</table>"
@@ -121,6 +125,46 @@ function RenderFavouriteTable(data){
 }
 
 function AddFavourite(){
-    parent.showBox("AddFavourite",'300px','100px')
+    parent.showBox("AddFavourite",'300px','100px',window)
 }
 
+function Delete(button){
+    let data = myFavourite[button.value]
+    console.log(data)
+    $.ajax({
+        type:"POST",
+        url:"/DeleteFavourite",
+        dataType:'json',
+        contentType:"application/json",
+        data:JSON.stringify({
+            "FavouriteId":data['FavouriteId'],
+        }),
+        async:false,
+        success:function(data){
+            parent.layer.msg('删除成功');
+            location.reload();
+        },
+        error:function(){
+            parent.layer.msg('删除失败');
+        }
+    });
+}
+
+function Alter(button) {
+    let layui = parent.layui
+    layui.use('layer',function (){
+        var layer = layui.layer;
+        layer.open({
+            title:'',
+            btn: false,
+            closeBtn:1,
+            type: 2,
+            area:['300px','120px'],
+            scrollbar:false,
+            content: ['/AlterFavourite/'+myFavourite[button.value]['FavouriteId']],
+            end:function (){
+                location.reload()
+            },
+        });
+    })
+}

@@ -196,10 +196,10 @@
   background-color: cyan;
 }
 
-#cancel{
+.cancel{
   right: 40px;
 }
-#ok{
+.ok{
   left: 40px;
 }
 .favourite-table{
