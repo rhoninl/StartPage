@@ -1,15 +1,21 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"main/Controller"
 	"main/Middlewares"
 	"net/http"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
 	router := gin.Default()
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:8080", "http://localhost:8081"}
+	config.AllowCredentials = true
+	router.Use(cors.New(config))
 	router.LoadHTMLGlob("Views/*.html")
 	router.StaticFile("/favicon.ico", "./Views/src/favicon.ico")
 	router.StaticFS("src", http.Dir("Views/src"))
@@ -29,5 +35,5 @@ func main() {
 	router.Handle("POST", "DeleteFavourite", Middlewares.Auth(), Controller.DeleteOneFavourite)
 	router.Handle("GET", "AlterFavourite/:id", Controller.AlterFavourite)
 	router.Handle("POST", "AlterFavourite", Middlewares.Auth(), Controller.AlterOneFavourite)
-	router.Run(":80")
+	router.RunTLS(":443", "/opt/ssl_www.wonend.cn.pem", "/opt/ssl_www.wonend.cn.key")
 }
