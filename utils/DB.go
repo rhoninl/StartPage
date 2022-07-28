@@ -3,8 +3,10 @@ package utils
 import (
 	"database/sql"
 	"fmt"
-	"github.com/go-redis/redis"
 	"log"
+
+	"github.com/go-redis/redis"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
