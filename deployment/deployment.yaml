@@ -13,6 +13,6 @@ spec:
     spec:
       containers:
       - name: startpage
-        image: liyaso/startpage:v0.0.1
+        image: registry.cn-hangzhou.aliyuncs.com/liyaso/startpage:v0.0.1
         ports:
         - containerPort: 80
