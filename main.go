@@ -35,5 +35,5 @@ func main() {
 	router.Handle("POST", "DeleteFavourite", Middlewares.Auth(), Controller.DeleteOneFavourite)
 	router.Handle("GET", "AlterFavourite/:id", Controller.AlterFavourite)
 	router.Handle("POST", "AlterFavourite", Middlewares.Auth(), Controller.AlterOneFavourite)
-	router.RunTLS(":443", "/opt/ssl_www.wonend.cn.pem", "/opt/ssl_www.wonend.cn.key")
+	router.Run(":80")
 }

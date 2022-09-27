@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: startpage
+spec:
+  selector:
+    matchLabels:
+      app: startpage
+  template:
+    metadata:
+      labels:
+        app: startpage
+    spec:
+      containers:
+      - name: startpage
+        image: liyaso/startpage:v0.0.1
+        ports:
+        - containerPort: 80
