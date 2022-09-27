@@ -17,4 +17,4 @@ WORKDIR /startpage
 COPY --from=builder /output/startpage  /startpage/startpage
 COPY --from=builder /startpage/Views /startpage/Views
 
-ENTRYPOINT [ "/startpage" ]
+ENTRYPOINT [ "/startpage/startpage" ]
