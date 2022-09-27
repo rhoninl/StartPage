@@ -12,6 +12,9 @@ RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -o /output/start
 
 FROM gcr.io/distroless/static-debian11
 
-COPY --from=builder /output/startpage  /startpage
+WORKDIR /startpage
+
+COPY --from=builder /output/startpage  /startpage/startpage
+COPY --from=builder /startpage/Views /startpage/Views
 
 ENTRYPOINT [ "/startpage" ]
